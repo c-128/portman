@@ -28,7 +28,12 @@ type Config struct {
 }
 
 func main() {
-	file, err := os.OpenFile("portman.json", os.O_RDONLY, 0)
+	filePath, found := os.LookupEnv("PORTMAN_CONFIG_FILE")
+	if !found {
+		filePath = "portman.json"
+	}
+
+	file, err := os.OpenFile(filePath, os.O_RDONLY, 0)
 	if err != nil {
 		log.Fatalf("Failed to open config file %s", err)
 	}
